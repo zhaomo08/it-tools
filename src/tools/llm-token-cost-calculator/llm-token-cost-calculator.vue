@@ -38,10 +38,8 @@ const remainingContext = computed(() => Math.max(0, contextWindow.value - estima
 
 <template>
   <div class="llm-root">
-
     <!-- ── Row 1: Prompt + Stats + Cost ── -->
     <div class="top-row">
-
       <!-- Prompt textarea -->
       <div class="panel prompt-panel">
         <div class="panel-head">
@@ -58,7 +56,6 @@ const remainingContext = computed(() => Math.max(0, contextWindow.value - estima
 
       <!-- Right column: token stats + cost -->
       <div class="right-col">
-
         <!-- Token stats -->
         <div class="panel stats-panel">
           <div class="panel-head">
@@ -68,7 +65,7 @@ const remainingContext = computed(() => Math.max(0, contextWindow.value - estima
           <div class="stat-grid">
             <div class="stat-item primary">
               <span class="stat-label">{{ tt('metrics.inputTokens', 'Input tokens') }}</span>
-              <span class="stat-value mono">{{ formatNumber(estimate.tokens) }}</span>
+              <span class="mono stat-value">{{ formatNumber(estimate.tokens) }}</span>
             </div>
             <div class="stat-item">
               <span class="stat-label">{{ tt('metrics.characters', 'Chars') }}</span>
@@ -113,7 +110,6 @@ const remainingContext = computed(() => Math.max(0, contextWindow.value - estima
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -127,7 +123,9 @@ const remainingContext = computed(() => Math.max(0, contextWindow.value - estima
       <div class="controls-grid">
         <!-- Col A: call params -->
         <div class="ctrl-group">
-          <div class="ctrl-group-label">{{ tt('sections.callParams', 'Call params') }}</div>
+          <div class="ctrl-group-label">
+            {{ tt('sections.callParams', 'Call params') }}
+          </div>
           <div class="field-block">
             <label>{{ tt('fields.expectedOutputTokens', 'Output tokens') }}</label>
             <n-input-number v-model:value="expectedOutputTokens" :min="0" :step="100" w-full />
@@ -144,7 +142,9 @@ const remainingContext = computed(() => Math.max(0, contextWindow.value - estima
 
         <!-- Col B: cache + batch sliders -->
         <div class="ctrl-group">
-          <div class="ctrl-group-label">{{ tt('sections.cacheAndBatch', 'Cache & batch') }}</div>
+          <div class="ctrl-group-label">
+            {{ tt('sections.cacheAndBatch', 'Cache & batch') }}
+          </div>
           <div class="field-block">
             <label>{{ tt('fields.cachedInputHit', 'Cached hit') }} <strong class="mono">{{ cachedInputPercent }}%</strong></label>
             <n-slider v-model:value="cachedInputPercent" :min="0" :max="100" :step="1" />
@@ -157,7 +157,9 @@ const remainingContext = computed(() => Math.max(0, contextWindow.value - estima
 
         <!-- Col C: pricing -->
         <div class="ctrl-group">
-          <div class="ctrl-group-label">{{ tt('sections.pricing', 'Pricing ($ / 1M)') }}</div>
+          <div class="ctrl-group-label">
+            {{ tt('sections.pricing', 'Pricing ($ / 1M)') }}
+          </div>
           <div class="field-block">
             <label>{{ tt('fields.inputPrice', 'Input') }}</label>
             <n-input-number v-model:value="inputPrice" :min="0" :step="0.1" w-full />
@@ -173,7 +175,6 @@ const remainingContext = computed(() => Math.max(0, contextWindow.value - estima
         </div>
       </div>
     </div>
-
   </div>
 </template>
 

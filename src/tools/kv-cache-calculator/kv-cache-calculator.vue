@@ -65,10 +65,8 @@ const savings = computed(() => Math.max(0, noCacheCost.value - cacheCost.value))
 
 <template>
   <div class="kv-root">
-
     <!-- ── Row 1: KV Memory config + result ── -->
-    <div class="row top-row">
-
+    <div class="top-row row">
       <!-- Left: inputs -->
       <div class="panel config-panel">
         <div class="panel-head">
@@ -104,12 +102,16 @@ const savings = computed(() => Math.max(0, noCacheCost.value - cacheCost.value))
             <span class="arch-label">{{ tt('fields.layers', 'Layers') }}</span>
             <n-input-number v-model:value="layers" :min="1" w-full size="small" />
           </div>
-          <div class="arch-sep">×</div>
+          <div class="arch-sep">
+            ×
+          </div>
           <div class="arch-item">
             <span class="arch-label">{{ tt('fields.kvHeads', 'KV heads') }}</span>
             <n-input-number v-model:value="kvHeads" :min="1" w-full size="small" />
           </div>
-          <div class="arch-sep">×</div>
+          <div class="arch-sep">
+            ×
+          </div>
           <div class="arch-item">
             <span class="arch-label">{{ tt('fields.headDim', 'Head dim') }}</span>
             <n-input-number v-model:value="headDim" :min="1" w-full size="small" />
@@ -127,7 +129,9 @@ const savings = computed(() => Math.max(0, noCacheCost.value - cacheCost.value))
         <div class="hero-block">
           <span class="hero-value">{{ formatBytes(kvCacheBytes).split(' ')[0] }}</span>
           <span class="hero-unit">{{ formatBytes(kvCacheBytes).split(' ')[1] }}</span>
-          <div class="hero-sub">{{ tt('metrics.totalKvCache', 'Total KV Cache') }}</div>
+          <div class="hero-sub">
+            {{ tt('metrics.totalKvCache', 'Total KV Cache') }}
+          </div>
         </div>
 
         <div class="metrics-table">
@@ -207,7 +211,7 @@ const savings = computed(() => Math.max(0, noCacheCost.value - cacheCost.value))
       <div class="strip">
         <div class="strip-item">
           <span class="strip-label">{{ tt('metrics.cachedTokens', 'Cached tokens') }}</span>
-          <span class="strip-value mono">{{ formatNumber(cachedTokens) }}</span>
+          <span class="mono strip-value">{{ formatNumber(cachedTokens) }}</span>
         </div>
         <div class="strip-divider" />
         <div class="strip-item">
@@ -221,7 +225,6 @@ const savings = computed(() => Math.max(0, noCacheCost.value - cacheCost.value))
         </div>
       </div>
     </div>
-
   </div>
 </template>
 

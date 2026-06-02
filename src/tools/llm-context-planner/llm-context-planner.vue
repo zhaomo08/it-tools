@@ -188,7 +188,7 @@ const breakdownItems = computed(() => [
         <div v-for="item in breakdownItems" :key="item.key" class="legend-item">
           <span class="legend-dot" :class="`seg-${item.key}`" />
           <span class="legend-label">{{ item.label }}</span>
-          <span class="legend-value mono">{{ formatNumber(item.value) }}</span>
+          <span class="mono legend-value">{{ formatNumber(item.value) }}</span>
           <span class="legend-pct">{{ (item.value / contextWindow * 100).toFixed(1) }}%</span>
         </div>
       </div>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { buildNestedSamplePayload } from './prompt-variable-extractor.service';
 import { useCopy } from '@/composable/copy';
 
 const { t } = useI18n();
@@ -11,28 +12,6 @@ Constraints:
 - Keep under {{constraints.max_words}} words
 - Include CTA: {{cta}}
 - Mention release date: {{timeline.release_date}}`);
-
-function getSampleValue(variable: string): string {
-  const normalized = variable.toLowerCase();
-
-  if (normalized.includes('max') || normalized.includes('count') || normalized.includes('num') || normalized.includes('words')) {
-    return '120';
-  }
-  if (normalized.includes('date') || normalized.includes('time')) {
-    return '2026-06-15';
-  }
-  if (normalized.includes('language') || normalized.includes('locale')) {
-    return 'zh-CN';
-  }
-  if (normalized.includes('role')) {
-    return 'Senior Product Marketing Manager';
-  }
-  if (normalized.includes('tone') || normalized.includes('style')) {
-    return 'clear and confident';
-  }
-
-  return 'example-value';
-}
 
 const variables = computed(() => {
   const pattern = /{{\s*([A-Za-z_][A-Za-z0-9_.-]*)\s*}}/g;
@@ -50,8 +29,7 @@ const variables = computed(() => {
 });
 
 const jsonExample = computed(() => {
-  const obj = Object.fromEntries(variables.value.map(variable => [variable, getSampleValue(variable)]));
-  return JSON.stringify(obj, null, 2);
+  return JSON.stringify(buildNestedSamplePayload(variables.value), null, 2);
 });
 
 const variablesPlainText = computed(() => variables.value.join('\n'));
@@ -91,7 +69,7 @@ const { copy: copyJson } = useCopy({
         <div class="panel-head">
           <span class="dot dot-violet" />
           <span class="panel-label">{{ tt('sections.variables', 'Detected Variables') }}</span>
-          <span class="var-count mono">{{ variables.length }}</span>
+          <span class="mono var-count">{{ variables.length }}</span>
         </div>
 
         <div v-if="variables.length === 0" class="empty-state">

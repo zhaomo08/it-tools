@@ -145,6 +145,7 @@ tools:
       perCall: per call
       runRate30d: 30 day run-rate
       remainingContext: Remaining context
+      contextUsage: Context
     fields:
       expectedOutputTokens: Expected output tokens
       callsPerDay: Calls per day
@@ -229,6 +230,7 @@ tools:
       history: History
       rag: RAG
       output: Output
+      free: Free
 
   prompt-variable-extractor:
     title: Prompt variable extractor

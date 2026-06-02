@@ -11,7 +11,7 @@ const isAiTool = computed(() => tool.value.category === t('tools.categories.ai',
 </script>
 
 <template>
-  <router-link :to="tool.path" class="decoration-none tool-card-link">
+  <router-link :to="tool.path" class="tool-card-link decoration-none">
     <c-card class="tool-card h-full" :class="{ 'ai-tool-card': isAiTool }">
       <div v-if="isAiTool" class="ai-card-bar" />
       <div flex items-center justify-between>

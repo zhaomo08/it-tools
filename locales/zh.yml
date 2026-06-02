@@ -144,6 +144,7 @@ tools:
       perCall: 每次调用
       runRate30d: 30 天预计成本
       remainingContext: 剩余上下文
+      contextUsage: 上下文
     fields:
       expectedOutputTokens: 预计输出 Token
       callsPerDay: 每日调用次数
@@ -228,6 +229,7 @@ tools:
       history: 历史
       rag: RAG
       output: 输出
+      free: 剩余
 
   prompt-variable-extractor:
     title: Prompt 变量提取器

@@ -78,11 +78,11 @@ const status = computed(() => {
   <div class="checker-root">
     <!-- Row 1: Required keys · JSON output -->
     <div class="top-row">
-      <div class="panel keys-panel">
+      <div class="keys-panel panel">
         <div class="panel-head">
           <span class="dot dot-violet" />
           <span class="panel-label">{{ tt('sections.requiredKeys', 'Required Keys') }}</span>
-          <span class="mono count-badge">{{ requiredKeys.length }}</span>
+          <span class="count-badge mono">{{ requiredKeys.length }}</span>
         </div>
         <c-input-text
           v-model:value="requiredKeysInput"
