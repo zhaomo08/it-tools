@@ -131,6 +131,7 @@ declare module '@vue/runtime-core' {
     KeycodeInfo: typeof import('./src/tools/keycode-info/keycode-info.vue')['default']
     KvCacheCalculator: typeof import('./src/tools/kv-cache-calculator/kv-cache-calculator.vue')['default']
     ListConverter: typeof import('./src/tools/list-converter/list-converter.vue')['default']
+    LlmApiTester: typeof import('./src/tools/llm-api-tester/llm-api-tester.vue')['default']
     LlmContextPlanner: typeof import('./src/tools/llm-context-planner/llm-context-planner.vue')['default']
     LlmTokenCostCalculator: typeof import('./src/tools/llm-token-cost-calculator/llm-token-cost-calculator.vue')['default']
     LocaleSelector: typeof import('./src/modules/i18n/components/locale-selector.vue')['default']

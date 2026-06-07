@@ -37,6 +37,7 @@ about:
     ## AI 工具
 
     - **LLM Token & Cost Calculator** — 本地估算 Prompt Token 数、缓存节省与调用成本
+    - **LLM API Tester** — 用真实聊天补全请求测试 OpenAI 兼容模型接口配置
     - **KV Cache Calculator** — 估算 Transformer KV Cache 显存占用与前缀缓存收益
     - **LLM Context Planner** — 按组件规划上下文窗口（系统提示、RAG、历史、输出预留）
     - **Prompt Variable Extractor** — 从模板中提取双花括号占位符并生成 JSON 样例
@@ -154,6 +155,37 @@ tools:
       cachedInputPrice: 缓存输入价格（$/百万）
       outputPrice: 输出价格（$/百万 Token）
       batchDiscount: 批量折扣
+
+  llm-api-tester:
+    title: LLM API 测试器
+    description: 测试 OpenAI 兼容接口的 base_url、apikey 和 model_code 是否配置正确。
+    sections:
+      connection: 连接配置
+      message: 测试消息
+      result: 测试结果
+      curl: curl 命令
+      raw: 原始响应
+    fields:
+      baseUrl: Base URL
+      apiKey: API Key
+      model: Model Code
+      endpoint: Endpoint
+    placeholders:
+      message: 输入要发送的测试消息...
+      raw: 测试完成后会显示模型服务返回的原始响应。
+    actions:
+      test: 发送测试请求
+      copyCurl: 复制 curl
+    status:
+      idle: 等待测试
+      success: 配置正常
+      error: 配置异常
+    messages:
+      idle: 填写模型服务配置后，发送默认“你好”测试消息。
+      missingFields: Base URL、API Key、Model Code 和测试消息都不能为空。
+      invalidJson: 响应不是有效 JSON。
+      noAssistantMessage: 响应中没有找到 assistant 消息。
+      curlCopied: curl 已复制到剪贴板
 
   kv-cache-calculator:
     title: KV Cache 计算器

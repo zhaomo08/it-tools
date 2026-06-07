@@ -69,6 +69,7 @@ import { tool as baseConverter } from './integer-base-converter';
 import { tool as jsonViewer } from './json-viewer';
 import { tool as jwtParser } from './jwt-parser';
 import { tool as kvCacheCalculator } from './kv-cache-calculator';
+import { tool as llmApiTester } from './llm-api-tester';
 import { tool as llmContextPlanner } from './llm-context-planner';
 import { tool as llmTokenCostCalculator } from './llm-token-cost-calculator';
 import { tool as promptTemplateRenderer } from './prompt-template-renderer';
@@ -201,6 +202,7 @@ export const toolsByCategory: ToolCategory[] = [
     name: 'AI',
     components: [
       llmTokenCostCalculator,
+      llmApiTester,
       kvCacheCalculator,
       llmContextPlanner,
       promptVariableExtractor,

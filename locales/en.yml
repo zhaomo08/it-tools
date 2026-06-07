@@ -37,6 +37,7 @@ about:
     ## AI Tools
 
     - **LLM Token & Cost Calculator** — Estimate token count, cache savings, and call cost locally
+    - **LLM API Tester** — Test OpenAI-compatible model endpoint settings with a real chat completion request
     - **KV Cache Calculator** — Estimate VRAM usage and prefix-cache benefit for Transformer models
     - **LLM Context Planner** — Plan context window allocation across system prompt, RAG, history, and output
     - **Prompt Variable Extractor** — Extract double-brace placeholders from templates and generate JSON samples
@@ -155,6 +156,37 @@ tools:
       cachedInputPrice: Cached input $ / 1M
       outputPrice: Output $ / 1M tokens
       batchDiscount: Batch discount
+
+  llm-api-tester:
+    title: LLM API tester
+    description: Test whether an OpenAI-compatible base URL, API key, and model code are configured correctly.
+    sections:
+      connection: Connection
+      message: Test message
+      result: Result
+      curl: curl command
+      raw: Raw response
+    fields:
+      baseUrl: Base URL
+      apiKey: API Key
+      model: Model code
+      endpoint: Endpoint
+    placeholders:
+      message: Type the message to send...
+      raw: The provider response will appear here after the test.
+    actions:
+      test: Send test request
+      copyCurl: Copy curl
+    status:
+      idle: Ready to test
+      success: Configuration OK
+      error: Configuration failed
+    messages:
+      idle: Fill in the provider settings and send the default “你好” test message.
+      missingFields: Base URL, API key, model, and message are required.
+      invalidJson: The response is not valid JSON.
+      noAssistantMessage: No assistant message was found in the response.
+      curlCopied: curl copied to clipboard
 
   kv-cache-calculator:
     title: KV cache calculator
