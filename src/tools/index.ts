@@ -1,3 +1,4 @@
+import { tool as byteUnitConverter } from './byte-unit-converter';
 import { tool as base64FileConverter } from './base64-file-converter';
 import { tool as base64StringConverter } from './base64-string-converter';
 import { tool as basicAuthGenerator } from './basic-auth-generator';
@@ -26,6 +27,7 @@ import { tool as yamlToToml } from './yaml-to-toml';
 import { tool as jsonToToml } from './json-to-toml';
 import { tool as tomlToYaml } from './toml-to-yaml';
 import { tool as tomlToJson } from './toml-to-json';
+import { tool as jsonToTypes } from './json-to-types';
 import { tool as jsonToCsv } from './json-to-csv';
 import { tool as cameraRecorder } from './camera-recorder';
 import { tool as listConverter } from './list-converter';
@@ -42,20 +44,26 @@ import { tool as ipv4AddressConverter } from './ipv4-address-converter';
 import { tool as benchmarkBuilder } from './benchmark-builder';
 import { tool as userAgentParser } from './user-agent-parser';
 import { tool as ipv4SubnetCalculator } from './ipv4-subnet-calculator';
+import { tool as dnsQuery } from './dns-query';
 import { tool as dockerRunToDockerComposeConverter } from './docker-run-to-docker-compose-converter';
 import { tool as htmlWysiwygEditor } from './html-wysiwyg-editor';
 import { tool as rsaKeyPairGenerator } from './rsa-key-pair-generator';
 import { tool as textToNatoAlphabet } from './text-to-nato-alphabet';
+import { tool as sslCertificateParser } from './ssl-certificate-parser';
 import { tool as slugifyString } from './slugify-string';
 import { tool as keycodeInfo } from './keycode-info';
 import { tool as jsonMinify } from './json-minify';
 import { tool as bcrypt } from './bcrypt';
 import { tool as bip39 } from './bip39-generator';
+import { tool as cssJsPrettifyMinify } from './css-js-prettify-minify';
 import { tool as caseConverter } from './case-converter';
+import { tool as chatMessageConverter } from './chat-message-converter';
+import { tool as curlToCode } from './curl-to-code';
 import { tool as chmodCalculator } from './chmod-calculator';
 import { tool as chronometer } from './chronometer';
 import { tool as colorConverter } from './color-converter';
 import { tool as crontabGenerator } from './crontab-generator';
+import { tool as dateCalculator } from './date-calculator';
 import { tool as dateTimeConverter } from './date-time-converter';
 import { tool as deviceInformation } from './device-information';
 import { tool as cypher } from './encryption';
@@ -64,6 +72,7 @@ import { tool as percentageCalculator } from './percentage-calculator';
 import { tool as gitMemo } from './git-memo';
 import { tool as hashText } from './hash-text';
 import { tool as hmacGenerator } from './hmac-generator';
+import { tool as htmlToMarkdown } from './html-to-markdown';
 import { tool as htmlEntities } from './html-entities';
 import { tool as baseConverter } from './integer-base-converter';
 import { tool as jsonViewer } from './json-viewer';
@@ -71,9 +80,11 @@ import { tool as jwtParser } from './jwt-parser';
 import { tool as kvCacheCalculator } from './kv-cache-calculator';
 import { tool as llmApiTester } from './llm-api-tester';
 import { tool as llmContextPlanner } from './llm-context-planner';
+import { tool as llmStreamParser } from './llm-stream-parser';
 import { tool as llmTokenCostCalculator } from './llm-token-cost-calculator';
 import { tool as promptTemplateRenderer } from './prompt-template-renderer';
 import { tool as promptVariableExtractor } from './prompt-variable-extractor';
+import { tool as ragTextChunker } from './rag-text-chunker';
 import { tool as loremIpsumGenerator } from './lorem-ipsum-generator';
 import { tool as mathEvaluator } from './math-evaluator';
 import { tool as metaTagGenerator } from './meta-tag-generator';
@@ -84,9 +95,11 @@ import { tool as wifiQrCodeGenerator } from './wifi-qr-code-generator';
 import { tool as randomPortGenerator } from './random-port-generator';
 import { tool as romanNumeralConverter } from './roman-numeral-converter';
 import { tool as sqlPrettify } from './sql-prettify';
+import { tool as structuredOutputBuilder } from './structured-output-builder';
 import { tool as svgPlaceholderGenerator } from './svg-placeholder-generator';
 import { tool as temperatureConverter } from './temperature-converter';
 import { tool as textStatistics } from './text-statistics';
+import { tool as toolSchemaConverter } from './tool-schema-converter';
 import { tool as tokenGenerator } from './token-generator';
 import type { ToolCategory } from './tools.types';
 import { tool as urlEncoder } from './url-encoder';
@@ -104,6 +117,8 @@ export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Converter',
     components: [
+      byteUnitConverter,
+      dateCalculator,
       dateTimeConverter,
       baseConverter,
       romanNumeralConverter,
@@ -129,6 +144,8 @@ export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Web',
     components: [
+      dnsQuery,
+      sslCertificateParser,
       urlEncoder,
       htmlEntities,
       urlParser,
@@ -154,6 +171,10 @@ export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Development',
     components: [
+      curlToCode,
+      jsonToTypes,
+      htmlToMarkdown,
+      cssJsPrettifyMinify,
       gitMemo,
       randomPortGenerator,
       crontabGenerator,
@@ -199,17 +220,16 @@ export const toolsByCategory: ToolCategory[] = [
     components: [phoneParserAndFormatter, ibanValidatorAndParser],
   },
   {
-    name: 'AI',
-    components: [
-      llmTokenCostCalculator,
-      llmApiTester,
-      kvCacheCalculator,
-      llmContextPlanner,
-      promptVariableExtractor,
-      promptTemplateRenderer,
-      jsonlChatBuilder,
-      jsonOutputKeyChecker,
-    ],
+    name: 'AI Capacity',
+    components: [llmTokenCostCalculator, kvCacheCalculator, llmContextPlanner, ragTextChunker],
+  },
+  {
+    name: 'AI Prompting',
+    components: [promptVariableExtractor, promptTemplateRenderer, jsonlChatBuilder, jsonOutputKeyChecker],
+  },
+  {
+    name: 'AI Runtime',
+    components: [llmApiTester, llmStreamParser, chatMessageConverter, toolSchemaConverter, structuredOutputBuilder],
   },
 ];
 

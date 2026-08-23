@@ -105,7 +105,9 @@ tools:
     measurement: '测量'
     text: '文本'
     data: '数据'
-    ai: 'AI'
+    ai capacity: 'AI · 成本与容量'
+    ai prompting: 'AI · Prompt 工程'
+    ai runtime: 'AI · 接口与调试'
 
   password-strength-analyser:
     title: 密码强度分析仪
@@ -131,6 +133,12 @@ tools:
   llm-token-cost-calculator:
     title: LLM Token 与成本计算器
     description: 在本地估算 Prompt Token、缓存输入节省、输出成本和上下文窗口占用。
+    usage:
+      what: '在真正发请求之前，先估算一段 Prompt 的 Token 数和调用成本，让"这个用法规模化后是否烧钱"在设计阶段就有答案。'
+      step1: '粘贴真实 Prompt，左侧实时给出字符数、词数、中文字数和 Token 估算。'
+      step2: '填入模型的输入、缓存输入、输出单价（美元 / 百万 Token）以及每天调用次数。'
+      step3: '看月度成本和缓存节省，决定是否需要压缩 Prompt 或启用前缀缓存。'
+      tip: 'Token 估算是本地启发式（英文约 4 字符 / Token，中文约 1.15 Token / 字），与各家真实分词器有几个百分点误差——用来选型足够，对账请以账单为准。'
     sections:
       promptPayload: 提示词内容
       tokenEstimate: Token 估算
@@ -159,6 +167,12 @@ tools:
   llm-api-tester:
     title: LLM API 测试器
     description: 测试 OpenAI 兼容接口的 base_url、apikey 和 model_code 是否配置正确。
+    usage:
+      what: '验证一组 base_url / api_key / model 是否真的能调通，并给出等价的 curl 命令。'
+      step1: '填入服务商的 Base URL、API Key 和模型代码。'
+      step2: '发送测试消息，读回助手回复、模型名和 Token 用量。'
+      step3: '复制 curl 命令，拿到终端复现或直接发给同事。'
+      tip: '请求由你的浏览器直接发往服务商，API Key 不经过本站服务器。即便如此，仍建议用测试 Key，不要在公共电脑上填生产 Key。'
     sections:
       connection: 连接配置
       message: 测试消息
@@ -190,6 +204,12 @@ tools:
   kv-cache-calculator:
     title: KV Cache 计算器
     description: 估算大模型 KV Cache 显存占用，并计算前缀缓存命中带来的成本节省。
+    usage:
+      what: '估算长上下文推理时 KV Cache 会吃掉多少显存，以及前缀缓存到底能省多少钱。'
+      step1: '选一个模型预设，或手填层数、KV 头数、head_dim 和缓存精度。'
+      step2: '填每序列 Token 数和并发序列数，得到总显存占用，以及 24 GiB 显卡能撑多少 Token。'
+      step3: '在下方填共享前缀长度和缓存命中率，对比开缓存前后的调用成本。'
+      tip: '公式是 层数 × KV 头数 × head_dim × 2(K/V) × 精度字节 × Token 数 × 并发数。GQA / MQA 模型要填 KV 头数而不是注意力头数，填错会高估好几倍。'
     sections:
       kvMemory: KV 内存
       result: 结果
@@ -232,6 +252,12 @@ tools:
   llm-context-planner:
     title: LLM 上下文规划器
     description: 按系统提示词、工具、RAG、历史消息和输出预留规划模型上下文窗口。
+    usage:
+      what: '把上下文窗口当预算来分配，避免对话历史悄悄挤掉 RAG 片段或输出预留空间。'
+      step1: '填入模型的上下文窗口大小。'
+      step2: '给系统提示、RAG 检索、对话历史、输出预留分别分配 Token 额度。'
+      step3: '看剩余额度和超支提示，调整各部分占比，直到回答还有足够空间。'
+      tip: '输出预留一定要留够——大多数"回答被截断"其实是输出预留不足，而不是输入太长。'
     status:
       overBudget: 超出预算
       tight: 较紧张
@@ -266,6 +292,12 @@ tools:
   prompt-variable-extractor:
     title: Prompt 变量提取器
     description: 自动提取模板占位符，快速生成可填充的 JSON 样例。
+    usage:
+      what: '从 Prompt 模板里提取全部双花括号占位符，并生成一份可直接填的 JSON 参数样例。'
+      step1: '粘贴带占位符的模板。'
+      step2: '右侧列出去重并排序后的变量清单，点号路径会被还原成嵌套对象。'
+      step3: '复制下方 JSON 样例，作为调用方需要传的参数结构。'
+      tip: '变量名里含 max、count、date、language、role、tone 等词时，会自动生成更贴近真实的示例值，样例可以直接拿去联调。'
     sections:
       input: 提示词模板
       variables: 检测到的变量
@@ -283,6 +315,12 @@ tools:
   prompt-template-renderer:
     title: Prompt 模板渲染器
     description: 用 JSON 变量渲染 Prompt 模板，并高亮未解析占位符。
+    usage:
+      what: '用一份 JSON 变量渲染 Prompt 模板，并把没被替换掉的占位符高亮出来。'
+      step1: '左边粘贴模板，右边粘贴 JSON 变量。'
+      step2: '看渲染结果，未解析的占位符会被单独标出。'
+      step3: '确认没有遗漏后，复制最终 Prompt。'
+      tip: '上线前跑一遍能挡掉最常见的一类 Prompt 事故：变量名拼错，导致占位符原样发给了模型。'
     sections:
       template: Prompt 模板
       variables: 变量 JSON
@@ -302,6 +340,12 @@ tools:
   jsonl-chat-builder:
     title: JSONL 对话构建器
     description: 将多行 Prompt 一键批量转换为聊天补全 API 的 JSONL 请求。
+    usage:
+      what: '把多行 Prompt 一次性转成 Batch API 需要的 JSONL 请求文件。'
+      step1: '填好模型、温度和系统提示。'
+      step2: '每行写一条用户 Prompt，一行就是一个请求。'
+      step3: '复制 JSONL，直接作为批量任务的输入文件上传。'
+      tip: '每行会自动带上 custom_id（req-1、req-2……），批量结果返回后靠它把回复对回原始 Prompt。'
     sections:
       config: 批处理配置
       userInputs: 用户提示词（每行一条）
@@ -323,6 +367,12 @@ tools:
   json-output-key-checker:
     title: JSON 输出字段校验器
     description: 校验模型 JSON 输出是否满足必填字段，并标出缺失/多余键。
+    usage:
+      what: '校验模型返回的 JSON 是否满足约定的必填字段，快速定位结构化输出的失败样本。'
+      step1: '每行写一个必填字段名。'
+      step2: '粘贴模型返回的 JSON。'
+      step3: '看「缺失字段」和「多余字段」两个清单，区分是模型漏了字段还是自己多传了。'
+      tip: '适合评测阶段批量过样本。如果失败率偏高，优先改用 structured output / JSON mode，而不是继续在 Prompt 里反复强调格式。'
     status:
       invalidJson: JSON 无效
       passed: 校验通过
@@ -342,6 +392,231 @@ tools:
       invalidJson: JSON 无效：
       notObject: JSON 值必须是对象。
       none: 无
+
+  structured-output-builder:
+    title: '结构化输出构建器'
+    description: '把一份 JSON 样例或 Schema 转成 OpenAI / Anthropic / Gemini 的结构化输出配置，并自动补齐 strict 模式的硬性要求。'
+    usage:
+      what: '从"我想要模型返回这样的 JSON"直接得到能真正约束住输出的请求配置，三家都支持。'
+      step1: '粘贴一段你期望模型返回的 JSON 样例，输入类型保持「JSON 样例」，Schema 会自动推断。'
+      step2: '选择目标服务商和 Schema 名称。'
+      step3: '复制配置，合并进你的请求体。'
+      tip: 'OpenAI 的 strict 模式会拒绝任何"对象允许额外字段"或"存在可选字段"的 Schema。这两项这里会自动补上并列在「Schema 调整」里——可选字段必须改写成可空类型，而不是从 required 里去掉。'
+    sections:
+      input: '期望输出'
+      settings: '构建设置'
+      output: '请求配置'
+      notes: 'Schema 调整'
+    fields:
+      mode: '输入类型'
+      target: '目标服务商'
+      name: 'Schema 名称'
+    options:
+      sample: 'JSON 样例（自动推断 Schema）'
+      schema: 'JSON Schema（直接使用）'
+    placeholders:
+      input: '粘贴你希望模型返回的 JSON，或一份 JSON Schema……'
+      output: '请求配置会显示在这里。'
+    actions:
+      copy: '复制配置'
+    messages:
+      hint: 'Anthropic 没有 response_format——用「强制调用单个工具」是等价的输出约束方式。'
+      copied: '已复制配置'
+
+  byte-unit-converter:
+    title: '字节单位转换器'
+    description: '在十进制（SI）和二进制（IEC）系统中转换数据大小单位（字节、KB、MB、GB、TB）。'
+
+  date-calculator:
+    title: '日期计算器'
+    description: '推算几天前/后的日期，或计算两个日期之间相差的天数。'
+    offset:
+      sectionTitle: '推算几天前 / 后的日期'
+      baseDate: '起始日期'
+      days: '偏移天数'
+      daysHint: '输入负数则往前推算'
+      resultLabel: '结果日期'
+    diff:
+      sectionTitle: '计算两个日期相差'
+      startDate: '开始日期'
+      targetDate: '目标日期'
+      resultLabel: '相差'
+      dayUnit: '天'
+      directionAfter: '目标日期比起始日期晚'
+      directionBefore: '目标日期比起始日期早'
+      directionSame: '两个日期为同一天'
+
+  json-to-types:
+    title: 'JSON 转 TypeScript/Go'
+    description: '从 JSON 样本生成 TypeScript 接口或 Go 结构体。'
+
+  html-to-markdown:
+    title: 'HTML 转 Markdown'
+    description: '使用此在线转换器将 HTML 转换为 Markdown。'
+
+  css-js-prettify-minify:
+    title: 'CSS/JS 格式化与压缩'
+    description: '在线格式化或压缩您的 CSS 和 JavaScript 代码。'
+
+  curl-to-code:
+    title: 'cURL 转代码'
+    description: '将 cURL 命令转换为多种编程语言的代码。'
+
+  dns-query:
+    title: 'DNS 查询'
+    description: '在线查询任意域名的 DNS 记录（A、AAAA、CNAME、MX、TXT、NS、SOA 等），使用 Cloudflare DNS 解析。'
+
+  ssl-certificate-parser:
+    title: 'SSL 证书解析器'
+    description: '解析 PEM 证书，查看过期时间、域名、颁发者等详细信息。'
+    inputLabel: 'PEM 证书'
+    inputPlaceholder: '在此粘贴 PEM 证书（-----BEGIN CERTIFICATE-----...）'
+    invalidPem: '无效的 PEM 证书'
+    validity: '有效期'
+    status: '状态'
+    valid: '有效'
+    expired: '已过期'
+    expiredAgo: '（已过期 {days} 天）'
+    daysRemaining: '（剩余 {days} 天）'
+    validFrom: '生效时间'
+    validTo: '过期时间'
+    subject: '主体信息'
+    san: '主体备用名称 (SAN)'
+    issuer: '颁发者'
+    details: '详细信息'
+    version: '版本'
+    serialNumber: '序列号'
+    signatureAlgorithm: '签名算法'
+    publicKey: '公钥'
+    fingerprint: '公钥指纹 (SHA-256)'
+    keyUsage: '密钥用途'
+    basicConstraints: '基本约束'
+    help:
+      title: '如何获取 PEM 证书？'
+      section1Title: '1. 从网站导出'
+      section1Desc: '这会输出从 -----BEGIN CERTIFICATE----- 到 -----END CERTIFICATE----- 的内容，这就是 PEM 证书。'
+      section2Title: '2. 从浏览器导出'
+      section2Step1: 'Chrome/Edge：点击地址栏锁图标 → 连接是安全的 → 证书有效 → 详细信息 → 导出'
+      section2Step2: '导出时选择 Base-64 编码（.pem/.crt）格式'
+      section3Title: '3. 从服务器文件获取'
+      section3Nginx: 'Nginx：查看 ssl_certificate 配置项指向的文件（通常是 .pem 或 .crt）'
+      section3Apache: 'Apache：查看 SSLCertificateFile 配置项'
+      section3Paths: '常见路径：/etc/ssl/certs/、/etc/letsencrypt/live/<域名>/fullchain.pem'
+      section4Title: '4. PEM 格式示例'
+
+  llm-shared:
+    usage: 用法说明
+
+  llm-stream-parser:
+    title: LLM 流式响应解析器
+    description: 把 OpenAI / Anthropic / Gemini 的 SSE 流式响应还原成完整文本、工具参数与用量统计。
+    usage:
+      what: '把一段原始 SSE 流式响应还原成完整文本，同时看清分片数、用量和结束原因。'
+      step1: '直接粘贴抓到的原始流，保留 data: 前缀和 event: 行都没问题。'
+      step2: '在右侧读分片数、模型、finish_reason、usage，以及是否收到结束标记。'
+      step3: '下方拿到拼接后的正文；思维链和工具调用参数会各自单独成块。'
+      tip: '同时兼容 OpenAI chat / responses、Anthropic messages、Gemini 四种分片格式。JSON 解析失败的分片会按序号列出来，这是定位连接被截断的最快方式。'
+    sections:
+      raw: 原始 SSE 流
+      stats: 流统计
+      text: 还原文本
+      reasoning: 思维链 / 推理内容
+      toolCalls: 工具调用参数
+      errors: 异常分片
+    metrics:
+      contentChunks: 内容分片
+      payloads: 分片总数
+      model: 模型
+      finishReason: 结束原因
+      done: '[DONE] 标记'
+    placeholders:
+      raw: '直接粘贴原始流，保留 data: 前缀即可……'
+      text: 拼接后的助手回复会显示在这里。
+    actions:
+      copyText: 复制文本
+    messages:
+      copied: 已复制还原文本
+
+  rag-text-chunker:
+    title: RAG 文本分块器
+    description: 按语义边界把文档切成可直接嵌入的块，支持重叠窗口与逐块 Token 估算。
+    usage:
+      what: '把长文档切成可直接做向量化的块，并逐块预览切分边界落在哪里。'
+      step1: '粘贴文档，在右侧设置单块最大字符数和重叠字符数。'
+      step2: '在下方逐块预览，确认没有把一个完整语义单元从中间切断。'
+      step3: '点「复制 JSONL」，拿到带 id 和 source 的嵌入输入文件。'
+      tip: '切分优先级是 段落 → 换行 → 中英文句末 → 空格 → 硬切。重叠一般取单块的 10%~15%，作用是让跨边界的句子在相邻两块里都能被检索到。'
+    sections:
+      source: 源文档
+      settings: 分块设置
+      preview: 分块预览
+    fields:
+      maxCharacters: 单块最大字符数
+      overlap: 重叠字符数
+      sourceId: 来源标识
+    metrics:
+      chunks: 分块数
+      totalTokens: 总 Token
+      averageTokens: 每块平均
+    placeholders:
+      source: 粘贴需要做向量化的文档……
+    actions:
+      copyJsonl: 复制 JSONL
+    messages:
+      empty: 暂无可分块内容
+      copied: 已复制 JSONL
+
+  chat-message-converter:
+    title: 对话消息格式转换器
+    description: 在 OpenAI / Anthropic / Gemini 的请求体格式之间互转，自动识别源格式。
+    usage:
+      what: '在 OpenAI / Anthropic / Gemini 三家的对话请求体之间互转，换服务商时不用手改结构。'
+      step1: '粘贴任意一家的请求体，识别到的源格式会显示在右上角。'
+      step2: '选择目标格式和模型代码。'
+      step3: '复制转换结果，直接替换原有请求体。'
+      tip: '三家对 system 的处理各不相同——OpenAI 放在 messages 里，Anthropic 是顶层 system 字段，Gemini 叫 systemInstruction。这里会自动搬运，assistant / model 角色名也会对应换掉。'
+    sections:
+      input: 源请求体
+      target: 目标格式
+      output: 转换结果
+    fields:
+      format: 输出格式
+      model: 模型代码
+    placeholders:
+      input: 粘贴 OpenAI、Anthropic 或 Gemini 的请求体……
+      output: 转换后的请求体会显示在这里。
+    actions:
+      copy: 复制请求体
+    messages:
+      hint: 源格式自动识别。system 提示会按各家接口的要求自动移入或移出消息列表。
+      copied: 已复制请求体
+
+  tool-schema-converter:
+    title: 工具调用定义转换器
+    description: 在 OpenAI / Anthropic / Gemini 的 function calling 工具定义之间互转，并标出 Gemini 不支持而被丢弃的 JSON Schema 关键字。
+    usage:
+      what: '在三家的 function calling 工具定义之间互转，并标出 Gemini 会丢弃的 JSON Schema 关键字。'
+      step1: '粘贴 OpenAI tools、Anthropic tools 或 Gemini functionDeclarations。'
+      step2: '选择目标格式，右侧会显示识别到的工具数量。'
+      step3: '转成 Gemini 时，务必看一眼底部的「被丢弃的关键字」清单。'
+      tip: 'Gemini 只接受 JSON Schema 的一个子集：类型要大写（STRING / OBJECT），不支持 $schema、additionalProperties、$ref、oneOf。可空联合类型会转成 type + nullable，const 会转成单值 enum。'
+    sections:
+      input: 源定义
+      target: 目标格式
+      output: 转换结果
+      warnings: 被丢弃的关键字
+    fields:
+      format: 输出格式
+    metrics:
+      tools: 个工具定义
+    placeholders:
+      input: 粘贴 OpenAI tools、Anthropic tools 或 Gemini functionDeclarations……
+      output: 转换后的工具定义会显示在这里。
+    actions:
+      copy: 复制定义
+    messages:
+      hint: Gemini 只接受 JSON Schema 的一个子集，不支持的关键字会被丢弃并在下方列出。
+      copied: 已复制工具定义
 
   percentage-calculator:
     title: 百分比计算器

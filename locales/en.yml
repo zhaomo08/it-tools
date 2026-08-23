@@ -105,7 +105,9 @@ tools:
     measurement: Measurement
     text: Text
     data: Data
-    ai: AI
+    ai capacity: 'AI · Cost & Capacity'
+    ai prompting: 'AI · Prompt Engineering'
+    ai runtime: 'AI · API & Debugging'
 
   password-strength-analyser:
     title: Password strength analyser
@@ -132,6 +134,12 @@ tools:
   llm-token-cost-calculator:
     title: LLM token & cost calculator
     description: Estimate local prompt tokens, cached input savings, output cost, and context window usage for LLM calls.
+    usage:
+      what: 'Estimate the token count and dollar cost of a prompt before you ship it, so "is this affordable at scale" is answered at design time instead of on the invoice.'
+      step1: 'Paste a real prompt — characters, words, CJK characters and the token estimate update as you type.'
+      step2: 'Enter the model''s input, cached input and output prices per million tokens, plus how many calls you make per day.'
+      step3: 'Read the monthly cost and cache savings to decide whether to shorten the prompt or turn on prefix caching.'
+      tip: 'The estimate is a local heuristic (~4 characters per token, ~1.15 tokens per CJK character) and lands within a few percent of real tokenizers — good enough to choose a model, not to reconcile a bill.'
     sections:
       promptPayload: Prompt payload
       tokenEstimate: Token estimate
@@ -160,6 +168,12 @@ tools:
   llm-api-tester:
     title: LLM API tester
     description: Test whether an OpenAI-compatible base URL, API key, and model code are configured correctly.
+    usage:
+      what: 'Verify that a base_url / api_key / model triple actually works, and get the equivalent curl command.'
+      step1: 'Enter the provider''s base URL, API key and model code.'
+      step2: 'Send the test message and read back the assistant reply, model name and token usage.'
+      step3: 'Copy the curl command to reproduce the call in a terminal or hand it to a teammate.'
+      tip: 'The request goes straight from your browser to the provider — the key never touches this site''s server. Even so, prefer a test key and avoid typing a production key on a shared machine.'
     sections:
       connection: Connection
       message: Test message
@@ -191,6 +205,12 @@ tools:
   kv-cache-calculator:
     title: KV cache calculator
     description: Estimate transformer KV cache memory and prefix cache hit savings for long-context LLM workloads.
+    usage:
+      what: 'Estimate how much GPU memory the KV cache eats during long-context inference, and what prefix caching actually saves.'
+      step1: 'Pick a model preset, or type the layer count, KV head count, head dim and cache precision yourself.'
+      step2: 'Set tokens per sequence and concurrent sequences to get total memory and how many tokens fit in 24 GiB.'
+      step3: 'Fill in the shared prefix length and cache hit rate below to compare cost with and without prefix caching.'
+      tip: 'The formula is layers x KV heads x head dim x 2 (K and V) x precision bytes x tokens x sequences. For GQA/MQA models enter KV heads, not attention heads, or you will overestimate several-fold.'
     sections:
       kvMemory: KV memory
       result: Result
@@ -233,6 +253,12 @@ tools:
   llm-context-planner:
     title: LLM context planner
     description: Plan system prompts, tools, RAG chunks, history, and output reserve against a model context window.
+    usage:
+      what: 'Treat the context window as a budget and split it deliberately, so chat history does not quietly squeeze out your retrieved passages or the room reserved for the answer.'
+      step1: 'Enter the model''s context window size.'
+      step2: 'Allocate a token budget to the system prompt, retrieved passages, conversation history and reserved output.'
+      step3: 'Watch the remaining budget and the overflow warning, then rebalance until the answer still has room.'
+      tip: 'Reserve generous output space — most "the answer got cut off" reports are an output reservation that was too small, not an input that was too long.'
     status:
       overBudget: Over budget
       tight: Tight
@@ -267,6 +293,12 @@ tools:
   prompt-variable-extractor:
     title: Prompt variable extractor
     description: Extract template placeholders and generate a fill-ready JSON sample payload.
+    usage:
+      what: 'Pull every double-curly placeholder out of a prompt template and get a ready-to-fill JSON payload.'
+      step1: 'Paste a template that uses placeholders.'
+      step2: 'The right panel lists them deduplicated and sorted; dotted paths become nested objects.'
+      step3: 'Copy the JSON sample below as the argument shape for whatever calls this prompt.'
+      tip: 'Names containing max, count, date, language, role or tone get realistic sample values instead of a generic placeholder, so the payload is usable as-is.'
     sections:
       input: Prompt template
       variables: Detected variables
@@ -284,6 +316,12 @@ tools:
   prompt-template-renderer:
     title: Prompt template renderer
     description: Render prompt templates with JSON variables and highlight unresolved placeholders.
+    usage:
+      what: 'Render a prompt template with a JSON variable payload and highlight every placeholder that did not resolve.'
+      step1: 'Paste the template on the left and the JSON variables on the right.'
+      step2: 'Read the rendered output — unresolved placeholders are called out separately.'
+      step3: 'Copy the final prompt once nothing is left unresolved.'
+      tip: 'Running this before shipping catches the most common prompt bug: a misspelled key that sends a literal placeholder to the model.'
     sections:
       template: Prompt template
       variables: Variables JSON
@@ -303,6 +341,12 @@ tools:
   jsonl-chat-builder:
     title: JSONL chat builder
     description: Convert multi-line prompts into JSONL batch requests for chat completion APIs.
+    usage:
+      what: 'Turn a list of prompts into the JSONL request file a batch completions API expects.'
+      step1: 'Set the model, temperature and system prompt.'
+      step2: 'Write one user prompt per line — each line becomes one request.'
+      step3: 'Copy the JSONL and upload it as the batch job input.'
+      tip: 'Every line carries a custom_id (req-1, req-2, ...) so you can map batch results back to the prompt that produced them.'
     sections:
       config: Batch config
       userInputs: User prompts (one per line)
@@ -324,6 +368,12 @@ tools:
   json-output-key-checker:
     title: JSON output key checker
     description: Validate model JSON output against required keys and surface missing or extra keys.
+    usage:
+      what: 'Check whether a model''s JSON output carries the keys you agreed on, and find structured-output failures fast.'
+      step1: 'List one required key per line.'
+      step2: 'Paste the JSON the model returned.'
+      step3: 'Read the missing-keys and extra-keys lists to tell a model omission from your own drift.'
+      tip: 'Useful for sweeping eval samples. If the failure rate is high, switch to structured output / JSON mode rather than adding more format instructions to the prompt.'
     status:
       invalidJson: Invalid JSON
       passed: Passed
@@ -343,6 +393,231 @@ tools:
       invalidJson: 'Invalid JSON:'
       notObject: JSON value must be an object.
       none: None
+
+  structured-output-builder:
+    title: 'Structured output builder'
+    description: 'Turn a JSON sample or schema into the structured output configuration for OpenAI, Anthropic, or Gemini, with strict-mode fixes applied.'
+    usage:
+      what: 'Go from "here is the JSON I want back" to a request configuration that actually enforces it, on any of the three providers.'
+      step1: 'Paste an example of the JSON you want the model to return, and leave the input mode on JSON sample — the schema is inferred for you.'
+      step2: 'Pick the target provider and a schema name.'
+      step3: 'Copy the configuration and merge it into your request body.'
+      tip: 'OpenAI strict mode rejects any schema where an object allows extra properties or leaves a key optional. Those two fixes are applied for you and listed under Schema Adjustments — an optional field has to become a nullable type instead.'
+    sections:
+      input: 'Desired Output'
+      settings: 'Build'
+      output: 'Request Configuration'
+      notes: 'Schema Adjustments'
+    fields:
+      mode: 'Input is'
+      target: 'Target'
+      name: 'Schema name'
+    options:
+      sample: 'JSON sample (infer the schema)'
+      schema: 'JSON Schema (use as is)'
+    placeholders:
+      input: 'Paste the JSON you want the model to return, or a JSON Schema...'
+      output: 'The request configuration will appear here.'
+    actions:
+      copy: 'Copy configuration'
+    messages:
+      hint: 'Anthropic has no response_format — a forced single tool call is the equivalent way to pin the output shape.'
+      copied: 'Configuration copied to clipboard'
+
+  byte-unit-converter:
+    title: 'Byte unit converter'
+    description: 'Convert between data size units (bytes, KB, MB, GB, TB) in both decimal (SI) and binary (IEC) systems.'
+
+  date-calculator:
+    title: 'Date calculator'
+    description: 'Add or subtract days from a date, or calculate the number of days between two dates.'
+    offset:
+      sectionTitle: 'Date after / before N days'
+      baseDate: 'Start date'
+      days: 'Days offset'
+      daysHint: 'Use a negative number to go backwards'
+      resultLabel: 'Result date'
+    diff:
+      sectionTitle: 'Days between two dates'
+      startDate: 'Start date'
+      targetDate: 'Target date'
+      resultLabel: 'Difference'
+      dayUnit: 'days'
+      directionAfter: 'Target date is after the start date'
+      directionBefore: 'Target date is before the start date'
+      directionSame: 'Same date'
+
+  json-to-types:
+    title: 'JSON to TypeScript/Go'
+    description: 'Generate TypeScript interfaces or Go structs from a JSON sample.'
+
+  html-to-markdown:
+    title: 'HTML to Markdown'
+    description: 'Convert HTML to Markdown with this online converter.'
+
+  css-js-prettify-minify:
+    title: 'CSS/JS Prettify & Minify'
+    description: 'Prettify or minify your CSS and JavaScript code online.'
+
+  curl-to-code:
+    title: 'cURL to Code'
+    description: 'Convert cURL commands to code in various programming languages.'
+
+  dns-query:
+    title: 'DNS Query'
+    description: 'Query DNS records (A, AAAA, CNAME, MX, TXT, NS, SOA, ...) for any domain name online using Cloudflare DNS.'
+
+  ssl-certificate-parser:
+    title: 'SSL Certificate Parser'
+    description: 'Parse and decode PEM certificates to view expiry date, domain, issuer and other details.'
+    inputLabel: 'PEM certificate'
+    inputPlaceholder: 'Paste your PEM certificate here (-----BEGIN CERTIFICATE-----...)'
+    invalidPem: 'Invalid PEM certificate'
+    validity: 'Validity'
+    status: 'Status'
+    valid: 'Valid'
+    expired: 'Expired'
+    expiredAgo: '(expired {days} days ago)'
+    daysRemaining: '({days} days remaining)'
+    validFrom: 'Valid From'
+    validTo: 'Valid To'
+    subject: 'Subject'
+    san: 'Subject Alternative Names (SAN)'
+    issuer: 'Issuer'
+    details: 'Details'
+    version: 'Version'
+    serialNumber: 'Serial Number'
+    signatureAlgorithm: 'Signature Algorithm'
+    publicKey: 'Public Key'
+    fingerprint: 'Public Key Fingerprint (SHA-256)'
+    keyUsage: 'Key Usage'
+    basicConstraints: 'Basic Constraints'
+    help:
+      title: 'How to get a PEM certificate?'
+      section1Title: '1. Export from a website'
+      section1Desc: 'This outputs content from -----BEGIN CERTIFICATE----- to -----END CERTIFICATE-----, which is the PEM certificate.'
+      section2Title: '2. Export from browser'
+      section2Step1: 'Chrome/Edge: Click the lock icon in the address bar → Connection is secure → Certificate is valid → Details → Export'
+      section2Step2: 'Choose Base-64 encoded (.pem/.crt) format when exporting'
+      section3Title: '3. From server files'
+      section3Nginx: 'Nginx: Check the file pointed to by ssl_certificate (usually .pem or .crt)'
+      section3Apache: 'Apache: Check SSLCertificateFile'
+      section3Paths: 'Common paths: /etc/ssl/certs/, /etc/letsencrypt/live/<domain>/fullchain.pem'
+      section4Title: '4. PEM format example'
+
+  llm-shared:
+    usage: How to use
+
+  llm-stream-parser:
+    title: LLM stream parser
+    description: Reassemble a streamed SSE response from OpenAI, Anthropic, or Gemini into readable text, tool arguments, and usage.
+    usage:
+      what: 'Reassemble a raw SSE stream into readable text while seeing the chunk count, usage and finish reason.'
+      step1: 'Paste the raw stream exactly as captured — data: prefixes and event: lines are both fine.'
+      step2: 'Read the chunk count, model, finish_reason, usage and whether the done marker arrived on the right.'
+      step3: 'Take the assembled text below; reasoning content and tool-call arguments get their own panels.'
+      tip: 'Understands OpenAI chat/responses, Anthropic messages and Gemini chunk shapes. Payloads that fail to parse are listed by index, which is the fastest way to spot a truncated connection.'
+    sections:
+      raw: Raw SSE Stream
+      stats: Stream Stats
+      text: Reconstructed Text
+      reasoning: Reasoning / Thinking
+      toolCalls: Tool Call Arguments
+      errors: Malformed Payloads
+    metrics:
+      contentChunks: content chunks
+      payloads: Payloads
+      model: Model
+      finishReason: Finish reason
+      done: '[DONE] marker'
+    placeholders:
+      raw: 'Paste the raw stream, data: lines and all...'
+      text: The assembled assistant message will appear here.
+    actions:
+      copyText: Copy text
+    messages:
+      copied: Reconstructed text copied to clipboard
+
+  rag-text-chunker:
+    title: RAG text chunker
+    description: Split a document into embedding-ready chunks on semantic boundaries, with overlap and per-chunk token estimates.
+    usage:
+      what: 'Split a long document into embedding-ready chunks and preview exactly where every boundary lands.'
+      step1: 'Paste the document, then set max characters per chunk and the overlap on the right.'
+      step2: 'Scan the per-chunk preview below to confirm no semantic unit was cut in half.'
+      step3: 'Hit Copy JSONL for embedding input with an id and source on every chunk.'
+      tip: 'Boundaries are tried in order — paragraph, line, sentence end (CJK and Latin), space, then a hard cut. An overlap of 10-15% of the chunk size keeps sentences that straddle a boundary retrievable from both sides.'
+    sections:
+      source: Source Document
+      settings: Chunking
+      preview: Chunk Preview
+    fields:
+      maxCharacters: Max characters
+      overlap: Overlap characters
+      sourceId: Source id
+    metrics:
+      chunks: chunks
+      totalTokens: Total tokens
+      averageTokens: Avg per chunk
+    placeholders:
+      source: Paste the document you want to embed...
+    actions:
+      copyJsonl: Copy JSONL
+    messages:
+      empty: Nothing to chunk yet
+      copied: JSONL copied to clipboard
+
+  chat-message-converter:
+    title: Chat message converter
+    description: Convert a chat request body between OpenAI, Anthropic, and Gemini formats, with automatic source detection.
+    usage:
+      what: 'Convert a chat request body between OpenAI, Anthropic and Gemini so switching providers is not a manual rewrite.'
+      step1: 'Paste any of the three shapes — the detected source format shows in the top right.'
+      step2: 'Pick the target format and model code.'
+      step3: 'Copy the result straight into your request.'
+      tip: 'The three providers disagree about the system prompt — OpenAI puts it in messages, Anthropic uses a top-level system field, Gemini calls it systemInstruction. It is moved for you, and the assistant/model role name is swapped to match.'
+    sections:
+      input: Source Payload
+      target: Target
+      output: Converted Payload
+    fields:
+      format: Output format
+      model: Model code
+    placeholders:
+      input: Paste an OpenAI, Anthropic, or Gemini request body...
+      output: The converted request body will appear here.
+    actions:
+      copy: Copy payload
+    messages:
+      hint: The source format is detected automatically. System prompts move in and out of the message list as each provider expects.
+      copied: Payload copied to clipboard
+
+  tool-schema-converter:
+    title: Tool schema converter
+    description: Convert function calling tool definitions between OpenAI, Anthropic, and Gemini, flagging JSON Schema keywords Gemini drops.
+    usage:
+      what: 'Convert function calling tool definitions between the three providers and see which JSON Schema keywords Gemini throws away.'
+      step1: 'Paste OpenAI tools, Anthropic tools, or Gemini functionDeclarations.'
+      step2: 'Choose the target format — the detected tool count shows on the right.'
+      step3: 'When targeting Gemini, read the dropped-keywords list at the bottom before shipping.'
+      tip: 'Gemini takes only a subset of JSON Schema: types are uppercase (STRING/OBJECT), and $schema, additionalProperties, $ref and oneOf are unsupported. A nullable union becomes type + nullable, and const becomes a single-value enum.'
+    sections:
+      input: Source Definitions
+      target: Target
+      output: Converted Definitions
+      warnings: Dropped Keywords
+    fields:
+      format: Output format
+    metrics:
+      tools: tool definitions
+    placeholders:
+      input: Paste OpenAI tools, Anthropic tools, or Gemini functionDeclarations...
+      output: The converted tool definitions will appear here.
+    actions:
+      copy: Copy definitions
+    messages:
+      hint: Gemini accepts only a subset of JSON Schema. Unsupported keywords are dropped and listed below.
+      copied: Tool definitions copied to clipboard
 
   percentage-calculator:
     title: Percentage calculator
