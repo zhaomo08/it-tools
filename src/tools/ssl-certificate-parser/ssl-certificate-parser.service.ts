@@ -82,7 +82,7 @@ export function parseCertificate(pem: string): CertificateInfo {
   });
 
   const pubKey = cert.publicKey as pki.rsa.PublicKey;
-  let publicKeyAlgorithm = 'RSA';
+  const publicKeyAlgorithm = 'RSA';
   let publicKeySize = '';
   if ('n' in pubKey && pubKey.n) {
     publicKeySize = `${pubKey.n.bitLength()} bits`;

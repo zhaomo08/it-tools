@@ -110,6 +110,12 @@ export default defineConfig({
   test: {
     exclude: [...configDefaults.exclude, '**/*.e2e.spec.ts'],
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      // curlconverter loads its tree-sitter wasm with a top-level await
+      target: 'esnext',
+    },
+  },
   build: {
     target: 'esnext',
   },

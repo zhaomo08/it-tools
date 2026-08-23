@@ -83,9 +83,8 @@ const minifyOutput = computed(() =>
         v-model:value="prettifyInput"
         placeholder="Paste your code to prettify..."
         rows="10"
-        multiline
-        monospace
-        raw-text
+
+        raw-text multiline monospace
       />
     </n-form-item>
     <n-form-item label="Prettified code">

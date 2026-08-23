@@ -52,9 +52,8 @@ const outputLanguage = computed(() => selectedLanguage.value === 'go' ? 'go' : '
       v-model:value="inputJson"
       placeholder="Paste your JSON here..."
       rows="15"
-      multiline
-      monospace
-      raw-text
+
+      raw-text multiline monospace
     />
   </n-form-item>
 

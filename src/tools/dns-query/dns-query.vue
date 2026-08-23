@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useCopy } from '@/composable/copy';
-import { queryAllDns, queryWhois, formatDnsRecords, getTypeName, defaultRecordTypes } from './dns-query.service';
+import { defaultRecordTypes, formatDnsRecords, getTypeName, queryAllDns, queryWhois } from './dns-query.service';
 import type { DnsAnswer, WhoisInfo } from './dns-query.service';
+import { useCopy } from '@/composable/copy';
 
 const domain = ref('example.com');
 const isLoading = ref(false);
@@ -89,7 +89,7 @@ async function doQuery() {
       mb-4
     />
 
-    <div flex justify-center mb-4>
+    <div mb-4 flex justify-center>
       <c-button :disabled="!domain.trim() || isLoading" @click="doQuery()">
         {{ isLoading ? 'Querying...' : 'Query DNS' }}
       </c-button>
@@ -102,15 +102,21 @@ async function doQuery() {
     <div v-if="hasQueried && !isLoading && !errorMessage">
       <div v-if="groupedAnswers.length > 0">
         <div v-for="group in groupedAnswers" :key="group.type" mb-4>
-          <div mb-2 font-bold text-15px>
+          <div mb-2 text-15px font-bold>
             {{ group.type }}
           </div>
           <n-table :bordered="true" :single-line="false" size="small">
             <thead>
               <tr>
-                <th scope="col">Name</th>
-                <th scope="col">TTL</th>
-                <th scope="col">Data</th>
+                <th scope="col">
+                  Name
+                </th>
+                <th scope="col">
+                  TTL
+                </th>
+                <th scope="col">
+                  Data
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -125,7 +131,7 @@ async function doQuery() {
           </n-table>
         </div>
 
-        <div flex justify-center mb-5>
+        <div mb-5 flex justify-center>
           <c-button @click="copy()">
             Copy results
           </c-button>
@@ -139,20 +145,20 @@ async function doQuery() {
       </c-card>
     </div>
 
-    <div v-if="whoisLoading" mt-2 op-60 italic>
+    <div v-if="whoisLoading" mt-2 italic op-60>
       Loading WHOIS info...
     </div>
 
     <div v-if="whoisInfo" mt-2>
       <n-divider />
-      <div mb-3 font-bold text-16px>
+      <div mb-3 text-16px font-bold>
         WHOIS
       </div>
 
       <n-table :bordered="true" :single-line="false" size="small">
         <tbody>
           <tr>
-            <td font-500 w-180px>
+            <td w-180px font-500>
               Domain Name
             </td>
             <td>{{ whoisInfo.domainName }}</td>

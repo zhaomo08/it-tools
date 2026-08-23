@@ -56,9 +56,8 @@ const outputLanguage = computed(() => converters[selectedLanguage.value]?.hlLang
       v-model:value="curlInput"
       placeholder="Paste your cURL command here..."
       rows="5"
-      multiline
-      monospace
-      raw-text
+
+      raw-text multiline monospace
     />
   </n-form-item>
 
