@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LlmUsageNote from '../llm-shared/llm-usage-note.vue';
 import { costForMillionTokens, formatBytes, formatMoney, formatNumber } from '../llm-shared/calculators';
 
 const { t } = useI18n();
@@ -65,6 +66,12 @@ const savings = computed(() => Math.max(0, noCacheCost.value - cacheCost.value))
 
 <template>
   <div class="kv-root">
+    <LlmUsageNote
+      :what="tt('usage.what', '')"
+      :steps="[tt('usage.step1', ''), tt('usage.step2', ''), tt('usage.step3', '')]"
+      :tip="tt('usage.tip', '')"
+    />
+
     <!-- ── Row 1: KV Memory config + result ── -->
     <div class="top-row row">
       <!-- Left: inputs -->

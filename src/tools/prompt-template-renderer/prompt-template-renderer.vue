@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LlmUsageNote from '../llm-shared/llm-usage-note.vue';
 import { useCopy } from '@/composable/copy';
 
 const { t } = useI18n();
@@ -92,6 +93,12 @@ const { copy: copyRendered } = useCopy({
 
 <template>
   <div class="renderer-root">
+    <LlmUsageNote
+      :what="tt('usage.what', '')"
+      :steps="[tt('usage.step1', ''), tt('usage.step2', ''), tt('usage.step3', '')]"
+      :tip="tt('usage.tip', '')"
+    />
+
     <!-- Row 1: Template + Variables side by side -->
     <div class="top-row">
       <div class="panel template-panel">

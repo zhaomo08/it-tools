@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LlmUsageNote from '../llm-shared/llm-usage-note.vue';
 import { buildChatCompletionsUrl, buildCurlCommand, buildRequestBody, summarizeChatCompletion } from './llm-api-tester.service';
 import { useCopy } from '@/composable/copy';
 
@@ -125,6 +126,12 @@ async function runTest() {
 
 <template>
   <div class="tester-root">
+    <LlmUsageNote
+      :what="tt('usage.what', '')"
+      :steps="[tt('usage.step1', ''), tt('usage.step2', ''), tt('usage.step3', '')]"
+      :tip="tt('usage.tip', '')"
+    />
+
     <div class="top-row">
       <div class="panel config-panel">
         <div class="panel-head">

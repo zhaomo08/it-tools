@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LlmUsageNote from '../llm-shared/llm-usage-note.vue';
 import { formatNumber } from '../llm-shared/calculators';
 
 const contextWindow = ref(128000);
@@ -60,6 +61,12 @@ const breakdownItems = computed(() => [
 
 <template>
   <div class="planner-root">
+    <LlmUsageNote
+      :what="tt('usage.what', '')"
+      :steps="[tt('usage.step1', ''), tt('usage.step2', ''), tt('usage.step3', '')]"
+      :tip="tt('usage.tip', '')"
+    />
+
     <!-- ── Row 1: Inputs + Fit Check ── -->
     <div class="top-row">
       <!-- Left: inputs in 2-col grid -->

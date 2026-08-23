@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LlmUsageNote from '../llm-shared/llm-usage-note.vue';
 import { formatNumber } from '../llm-shared/calculators';
 
 const { t } = useI18n();
@@ -76,6 +77,12 @@ const status = computed(() => {
 
 <template>
   <div class="checker-root">
+    <LlmUsageNote
+      :what="tt('usage.what', '')"
+      :steps="[tt('usage.step1', ''), tt('usage.step2', ''), tt('usage.step3', '')]"
+      :tip="tt('usage.tip', '')"
+    />
+
     <!-- Row 1: Required keys · JSON output -->
     <div class="top-row">
       <div class="keys-panel panel">

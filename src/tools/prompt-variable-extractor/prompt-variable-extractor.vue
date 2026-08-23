@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LlmUsageNote from '../llm-shared/llm-usage-note.vue';
 import { buildNestedSamplePayload } from './prompt-variable-extractor.service';
 import { useCopy } from '@/composable/copy';
 
@@ -47,6 +48,12 @@ const { copy: copyJson } = useCopy({
 
 <template>
   <div class="extractor-root">
+    <LlmUsageNote
+      :what="tt('usage.what', '')"
+      :steps="[tt('usage.step1', ''), tt('usage.step2', ''), tt('usage.step3', '')]"
+      :tip="tt('usage.tip', '')"
+    />
+
     <!-- Row 1: template left · variables right -->
     <div class="top-row">
       <!-- Template input -->

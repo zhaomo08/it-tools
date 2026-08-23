@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LlmUsageNote from '../llm-shared/llm-usage-note.vue';
 import { formatNumber } from '../llm-shared/calculators';
 import { useCopy } from '@/composable/copy';
 
@@ -52,6 +53,12 @@ const { copy: copyJsonl } = useCopy({
 
 <template>
   <div class="builder-root">
+    <LlmUsageNote
+      :what="tt('usage.what', '')"
+      :steps="[tt('usage.step1', ''), tt('usage.step2', ''), tt('usage.step3', '')]"
+      :tip="tt('usage.tip', '')"
+    />
+
     <!-- Row 1: Config left · Prompts right -->
     <div class="top-row">
       <div class="panel config-panel">

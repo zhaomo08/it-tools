@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LlmUsageNote from '../llm-shared/llm-usage-note.vue';
 import { costForMillionTokens, estimateTokens, formatMoney, formatNumber } from '../llm-shared/calculators';
 
 const prompt = ref(`You are a careful coding assistant.
@@ -38,6 +39,12 @@ const remainingContext = computed(() => Math.max(0, contextWindow.value - estima
 
 <template>
   <div class="llm-root">
+    <LlmUsageNote
+      :what="tt('usage.what', '')"
+      :steps="[tt('usage.step1', ''), tt('usage.step2', ''), tt('usage.step3', '')]"
+      :tip="tt('usage.tip', '')"
+    />
+
     <!-- ── Row 1: Prompt + Stats + Cost ── -->
     <div class="top-row">
       <!-- Prompt textarea -->
