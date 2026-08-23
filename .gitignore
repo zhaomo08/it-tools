@@ -34,3 +34,6 @@ coverage
 # Webkit with playwright creates a salt file
 salt
 .vercel
+
+# upstream tool tracker cache
+scripts/.upstream-tools-cache.json
