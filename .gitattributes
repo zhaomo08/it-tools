@@ -1,0 +1,2 @@
+# figlet font files are assets: keep them byte-for-byte, no line-ending rewriting
+*.flf -text

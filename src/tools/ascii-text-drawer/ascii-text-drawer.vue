@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import figlet from 'figlet';
+import { fontPathFor } from './ascii-text-drawer.fonts';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
 
 const input = ref('Ascii ART');
@@ -9,14 +10,14 @@ const output = ref('');
 const error = ref('');
 const processing = ref(false);
 
-// figlet appends `/<font>.flf` itself, so this must not end in a slash: the
-// resulting `fonts//Standard.flf` is rejected before it reaches unpkg.
-// Keep the version in step with the figlet dependency, the fonts ship with it.
-figlet.defaults({ fontPath: 'https://unpkg.com/figlet@1.7.0/fonts' });
-
 watchEffect(async () => {
   processing.value = true;
   try {
+    // Common fonts are served by the app, the rest come from the CDN. figlet
+    // reads this at fetch time and caches each parsed font, so switching per
+    // render costs nothing.
+    figlet.defaults({ fontPath: fontPathFor(font.value) });
+
     const options: figlet.Options = {
       font: font.value as figlet.Fonts,
       width: width.value,

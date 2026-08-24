@@ -56,6 +56,13 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       strategies: 'generateSW',
+      workbox: {
+        // The default patterns miss .flf, which would leave the bundled figlet
+        // fonts out of the precache and the ASCII tool broken offline. Spelling
+        // the list out means wasm has to be named too, or curl-to-code loses its
+        // tree-sitter files.
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm,ttf,flf}'],
+      },
       manifest: {
         name: 'IT Tools',
         description: 'Aggregated set of useful tools for developers.',
