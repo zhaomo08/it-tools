@@ -1,11 +1,10 @@
 import { readdirSync } from 'node:fs';
-import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { bundledFonts, cdnFontPath, fontPathFor } from './ascii-text-drawer.fonts';
 
 describe('ascii-text-drawer fonts', () => {
   it('lists exactly the fonts that ship in public/figlet-fonts', () => {
-    const shipped = readdirSync(join(process.cwd(), 'public', 'figlet-fonts'))
+    const shipped = readdirSync(new URL('../../../public/figlet-fonts', import.meta.url))
       .filter(file => file.endsWith('.flf'))
       .map(file => file.replace(/\.flf$/, ''))
       .sort();
