@@ -9,5 +9,6 @@ export const tool = defineTool({
   keywords: ['llm', 'ai', 'sse', 'stream', 'streaming', 'delta', 'chunk', 'openai', 'anthropic', 'gemini', 'debug'],
   component: () => import('./llm-stream-parser.vue'),
   icon: Activity,
+  isWide: true,
   createdAt: new Date('2026-08-23'),
 });

@@ -9,5 +9,6 @@ export const tool = defineTool({
   keywords: ['llm', 'ai', 'chat', 'messages', 'openai', 'anthropic', 'claude', 'gemini', 'convert', 'format', 'payload'],
   component: () => import('./chat-message-converter.vue'),
   icon: Repeat,
+  isWide: true,
   createdAt: new Date('2026-08-23'),
 });

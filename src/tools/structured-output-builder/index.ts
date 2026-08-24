@@ -9,5 +9,6 @@ export const tool = defineTool({
   keywords: ['llm', 'ai', 'structured', 'output', 'json', 'schema', 'strict', 'response format', 'openai', 'anthropic', 'gemini'],
   component: () => import('./structured-output-builder.vue'),
   icon: Braces,
+  isWide: true,
   createdAt: new Date('2026-08-23'),
 });
