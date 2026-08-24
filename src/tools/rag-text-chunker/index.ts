@@ -9,6 +9,6 @@ export const tool = defineTool({
   keywords: ['llm', 'ai', 'rag', 'chunk', 'split', 'embedding', 'vector', 'overlap', 'retrieval'],
   component: () => import('./rag-text-chunker.vue'),
   icon: Scissors,
-  isWide: true,
+  layout: 'wide',
   createdAt: new Date('2026-08-23'),
 });

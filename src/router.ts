@@ -6,11 +6,18 @@ import { tools } from './tools';
 import { config } from './config';
 import { routes as demoRoutes } from './ui/demo/demo.routes';
 
-const toolsRoutes = tools.map(({ path, name, component, ...config }) => ({
+const toolLayouts = {
+  default: layouts.toolLayout,
+  wide: layouts.toolWideLayout,
+};
+
+// `layout` is destructured out on purpose: spreading it into meta would replace
+// the layout component with the plain string from the tool definition.
+const toolsRoutes = tools.map(({ path, name, component, layout, ...config }) => ({
   path,
   name,
   component,
-  meta: { isTool: true, layout: layouts.toolLayout, name, ...config },
+  meta: { isTool: true, layout: toolLayouts[layout ?? 'default'], name, ...config },
 }));
 const toolsRedirectRoutes = tools
   .filter(({ redirectFrom }) => redirectFrom && redirectFrom.length > 0)

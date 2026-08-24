@@ -9,6 +9,6 @@ export const tool = defineTool({
   keywords: ['ai', 'json', 'schema', 'validation', 'output', 'llm', 'keys'],
   component: () => import('./json-output-key-checker.vue'),
   icon: ListCheck,
-  isWide: true,
+  layout: 'wide',
   createdAt: new Date('2026-05-31'),
 });

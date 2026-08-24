@@ -9,6 +9,6 @@ export const tool = defineTool({
   keywords: ['llm', 'ai', 'api', 'curl', 'openai', 'model', 'base url', 'api key', 'test'],
   component: () => import('./llm-api-tester.vue'),
   icon: Api,
-  isWide: true,
+  layout: 'wide',
   createdAt: new Date('2026-06-07'),
 });

@@ -9,6 +9,6 @@ export const tool = defineTool({
   keywords: ['llm', 'ai', 'kv cache', 'cache hit', 'prefix caching', 'vram', 'memory', 'transformer'],
   component: () => import('./kv-cache-calculator.vue'),
   icon: Database,
-  isWide: true,
+  layout: 'wide',
   createdAt: new Date('2026-05-30'),
 });

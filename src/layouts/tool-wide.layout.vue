@@ -16,9 +16,10 @@ import ToolHeader from './tool-header.vue';
 </template>
 
 <style lang="less" scoped>
-// The default layout: a single 600px column. A tool that renders more than one
-// panel gets them side by side.
-@tool-width: 600px;
+// For tools that lay themselves out in columns: one panel spans the container.
+// The header widens with it, otherwise the title stops lining up with the
+// panels underneath.
+@tool-width: 1200px;
 
 .tool-content {
   display: flex;
@@ -28,8 +29,12 @@ import ToolHeader from './tool-header.vue';
   flex-wrap: wrap;
   gap: 16px;
 
+  max-width: @tool-width;
+  margin: 0 auto;
+
   ::v-deep(& > *) {
-    flex: 0 1 @tool-width;
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 }
 

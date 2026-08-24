@@ -9,6 +9,6 @@ export const tool = defineTool({
   keywords: ['ai', 'llm', 'jsonl', 'batch', 'chat', 'dataset', 'openai'],
   component: () => import('./jsonl-chat-builder.vue'),
   icon: Messages,
-  isWide: true,
+  layout: 'wide',
   createdAt: new Date('2026-05-31'),
 });

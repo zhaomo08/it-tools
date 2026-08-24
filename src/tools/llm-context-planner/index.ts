@@ -9,6 +9,6 @@ export const tool = defineTool({
   keywords: ['llm', 'ai', 'context', 'window', 'rag', 'prompt', 'tokens', 'agent'],
   component: () => import('./llm-context-planner.vue'),
   icon: ChartBar,
-  isWide: true,
+  layout: 'wide',
   createdAt: new Date('2026-05-30'),
 });

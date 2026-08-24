@@ -1,5 +1,7 @@
 import type { Component } from 'vue';
 
+export type ToolLayout = 'default' | 'wide';
+
 export interface Tool {
   name: string
   path: string
@@ -10,8 +12,8 @@ export interface Tool {
   redirectFrom?: string[]
   isNew: boolean
   createdAt?: Date
-  /** Lay the tool out in the wide container, for tools that arrange themselves in columns. */
-  isWide?: boolean
+  /** Which layout component renders the tool. 'wide' is for tools that lay themselves out in columns. */
+  layout?: ToolLayout
 }
 
 export interface ToolCategory {

@@ -9,6 +9,6 @@ export const tool = defineTool({
   keywords: ['ai', 'prompt', 'template', 'render', 'variable', 'placeholder', 'llm'],
   component: () => import('./prompt-template-renderer.vue'),
   icon: Template,
-  isWide: true,
+  layout: 'wide',
   createdAt: new Date('2026-05-31'),
 });

@@ -9,6 +9,6 @@ export const tool = defineTool({
   keywords: ['llm', 'ai', 'token', 'cost', 'price', 'prompt', 'cache', 'openai', 'claude', 'gemini'],
   component: () => import('./llm-token-cost-calculator.vue'),
   icon: Calculator,
-  isWide: true,
+  layout: 'wide',
   createdAt: new Date('2026-05-30'),
 });

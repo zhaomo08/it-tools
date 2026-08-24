@@ -9,6 +9,6 @@ export const tool = defineTool({
   keywords: ['prompt', 'template', 'variable', 'extract', 'llm', 'placeholder', 'json'],
   component: () => import('./prompt-variable-extractor.vue'),
   icon: Braces,
-  isWide: true,
+  layout: 'wide',
   createdAt: new Date('2026-05-31'),
 });
