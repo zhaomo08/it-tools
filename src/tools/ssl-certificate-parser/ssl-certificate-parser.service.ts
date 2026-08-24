@@ -1,6 +1,5 @@
 import forge from 'node-forge';
-
-const { pki } = forge;
+import type { pki } from 'node-forge';
 
 export interface CertificateInfo {
   subject: { key: string; value: string }[]
@@ -68,14 +67,14 @@ function getBasicConstraints(cert: pki.Certificate): string {
 }
 
 export function parseCertificate(pem: string): CertificateInfo {
-  const cert = pki.certificateFromPem(pem);
+  const cert = forge.pki.certificateFromPem(pem);
 
   const now = new Date();
   const validTo = cert.validity.notAfter;
   const isExpired = now > validTo;
   const daysUntilExpiry = Math.floor((validTo.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
-  const md = pki.getPublicKeyFingerprint(cert.publicKey, {
+  const md = forge.pki.getPublicKeyFingerprint(cert.publicKey, {
     md: forge.md.sha256.create(),
     encoding: 'hex',
     delimiter: ':',
@@ -97,7 +96,7 @@ export function parseCertificate(pem: string): CertificateInfo {
     isExpired,
     daysUntilExpiry,
     version: cert.version + 1,
-    signatureAlgorithm: (pki as any).oids[cert.siginfo.algorithmOid] || cert.siginfo.algorithmOid,
+    signatureAlgorithm: forge.pki.oids[cert.siginfo.algorithmOid] || cert.siginfo.algorithmOid,
     thumbprint: String(md),
     subjectAltNames: getSubjectAltNames(cert),
     keyUsage: getKeyUsage(cert),
