@@ -8,5 +8,6 @@ export const tool = defineTool({
   keywords: ['regex', 'tester', 'sample', 'expression'],
   component: () => import('./regex-tester.vue'),
   icon: Language,
+  layout: 'wide',
   createdAt: new Date('2024-09-20'),
 });

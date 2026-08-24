@@ -9,5 +9,6 @@ export const tool = defineTool({
   keywords: ['camera', 'recoder'],
   component: () => import('./camera-recorder.vue'),
   icon: Camera,
+  layout: 'wide',
   createdAt: new Date('2023-05-15'),
 });

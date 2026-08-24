@@ -9,5 +9,6 @@ export const tool = defineTool({
   keywords: ['ssl', 'certificate', 'x509', 'pem', 'cert', 'tls', 'https', 'expiry', 'issuer', 'subject', 'domain'],
   component: () => import('./ssl-certificate-parser.vue'),
   icon: FileCertificate,
+  layout: 'wide',
   createdAt: new Date('2026-06-05'),
 });

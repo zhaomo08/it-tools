@@ -9,5 +9,6 @@ export const tool = defineTool({
   keywords: ['dns', 'query', 'lookup', 'resolve', 'domain', 'A', 'AAAA', 'CNAME', 'MX', 'TXT', 'NS', 'SOA', 'network', 'devops'],
   component: () => import('./dns-query.vue'),
   icon: World,
+  layout: 'wide',
   createdAt: new Date('2026-06-12'),
 });

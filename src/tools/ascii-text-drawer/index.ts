@@ -8,5 +8,6 @@ export const tool = defineTool({
   keywords: ['ascii', 'asciiart', 'text', 'drawer'],
   component: () => import('./ascii-text-drawer.vue'),
   icon: Artboard,
+  layout: 'wide',
   createdAt: new Date('2024-03-03'),
 });

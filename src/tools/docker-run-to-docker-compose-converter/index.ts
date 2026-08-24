@@ -7,6 +7,7 @@ export const tool = defineTool({
   path: '/docker-run-to-docker-compose-converter',
   description: translate('tools.docker-run-to-docker-compose-converter.description'),
   keywords: ['docker', 'run', 'compose', 'yaml', 'yml', 'convert', 'deamon'],
+  layout: 'wide',
   component: () => import('./docker-run-to-docker-compose-converter.vue'),
   icon: BrandDocker,
 });
