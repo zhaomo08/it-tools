@@ -161,7 +161,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@vueuse/shared": "12.0.0"
+      "@unhead/vue>@vueuse/shared": "12.0.0"
     }
   }
 }
