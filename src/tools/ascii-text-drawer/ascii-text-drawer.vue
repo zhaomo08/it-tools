@@ -6,10 +6,13 @@ const input = ref('Ascii ART');
 const font = useStorage('ascii-text-drawer:font', 'Standard');
 const width = useStorage('ascii-text-drawer:width', 80);
 const output = ref('');
-const errored = ref(false);
+const error = ref('');
 const processing = ref(false);
 
-figlet.defaults({ fontPath: '//unpkg.com/figlet@1.6.0/fonts/' });
+// figlet appends `/<font>.flf` itself, so this must not end in a slash: the
+// resulting `fonts//Standard.flf` is rejected before it reaches unpkg.
+// Keep the version in step with the figlet dependency, the fonts ship with it.
+figlet.defaults({ fontPath: 'https://unpkg.com/figlet@1.7.0/fonts' });
 
 watchEffect(async () => {
   processing.value = true;
@@ -29,10 +32,11 @@ watchEffect(async () => {
 
           resolve(text ?? '');
         })));
-    errored.value = false;
+    error.value = '';
   }
-  catch (e: any) {
-    errored.value = true;
+  catch (e: unknown) {
+    // Swallowing this is what kept a broken font URL invisible.
+    error.value = e instanceof Error ? e.message : String(e);
   }
   processing.value = false;
 });
@@ -78,11 +82,11 @@ const fonts = ['1Row', '3-D', '3D Diagonal', '3D-ASCII', '3x5', '4Max', '5 Line 
       <span class="ml-2">Loading font...</span>
     </div>
 
-    <c-alert v-if="errored" mt-1 text-center type="error">
-      Current settings resulted in error.
+    <c-alert v-if="error" mt-1 text-center type="error">
+      Could not render this text: {{ error }}
     </c-alert>
 
-    <n-form-item v-if="!processing && !errored" label="Ascii Art text:">
+    <n-form-item v-if="!processing && !error" label="Ascii Art text:">
       <TextareaCopyable
         :value="output"
         mb-1 mt-1
